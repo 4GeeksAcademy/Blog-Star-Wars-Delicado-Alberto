@@ -31,7 +31,7 @@ const Home = () => {
 
     return (
         <div className="container text-center mt-5">
-            <h1 className="star-wars-title">Galactic Archives</h1>
+            <h1 className="star-wars-title">Star Wars</h1>
 
             {loading ? (
                 <div className="loader-container">
@@ -41,7 +41,7 @@ const Home = () => {
             ) : (
                 <>
                     {/* Beings */}
-                    <h2 className="category-title">Galactic Beings</h2>
+                    <h2 className="category-title">Characters</h2>
                     <div className="row">
                         {beings.map((being) => (
                             <div key={being.uid} className="col-md-3 mb-4">
@@ -60,7 +60,7 @@ const Home = () => {
                     </div>
 
                     {/* Worlds */}
-                    <h2 className="category-title">Galactic Worlds</h2>
+                    <h2 className="category-title">Planets</h2>
                     <div className="row">
                         {worlds.map((world) => (
                             <div key={world.uid} className="col-md-3 mb-4">
@@ -79,7 +79,7 @@ const Home = () => {
                     </div>
 
                     {/* Vessels */}
-                    <h2 className="category-title">Galactic Vessels</h2>
+                    <h2 className="category-title">Vehicles</h2>
                     <div className="row">
                         {vessels.map((vessel) => (
                             <div key={vessel.uid} className="col-md-3 mb-4">

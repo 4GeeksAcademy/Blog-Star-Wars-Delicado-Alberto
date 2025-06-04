@@ -6,7 +6,7 @@ const Navbar = () => {
         <nav className="navbar navbar-dark bg-black">
             <div className="container">
                 <Link to="/" className="navbar-brand text-warning">
-                    Galactic Archives
+                    Star Wars
                 </Link>
                 <Favorites />
             </div>
