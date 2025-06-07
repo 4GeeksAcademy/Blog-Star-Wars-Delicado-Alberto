@@ -3,18 +3,39 @@ const initialStore = {
 };
 
 const storeReducer = (state, action) => {
+  let newState;
+  
   switch (action.type) {
       case "ADD_FAVORITE":
-          return { ...state, favorites: [...state.favorites, action.payload] };
+          const exists = state.favorites.some(
+              fav => fav.uid === action.payload.uid && fav.type === action.payload.type
+          );
+          
+          if (exists) {
+              return state;
+          }
+          
+          newState = { 
+              ...state, 
+              favorites: [...state.favorites, action.payload] 
+          };
+          localStorage.setItem("favorites", JSON.stringify(newState.favorites));
+          return newState;
 
       case "REMOVE_FAVORITE":
-          return { 
+          newState = { 
               ...state, 
-              favorites: state.favorites.filter(fav => fav.uid !== action.payload.uid) 
+              favorites: state.favorites.filter(
+                  fav => !(fav.uid === action.payload.uid && fav.type === action.payload.type)
+              ) 
           };
+          localStorage.setItem("favorites", JSON.stringify(newState.favorites));
+          return newState;
 
       case "SET_FAVORITES":
-          return { ...state, favorites: action.payload };
+          newState = { ...state, favorites: action.payload };
+          localStorage.setItem("favorites", JSON.stringify(action.payload));
+          return newState;
 
       default:
           return state;

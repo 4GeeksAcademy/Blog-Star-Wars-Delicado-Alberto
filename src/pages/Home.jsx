@@ -40,7 +40,6 @@ const Home = () => {
                 </div>
             ) : (
                 <>
-                    {/* Beings */}
                     <h2 className="category-title">Characters</h2>
                     <div className="row">
                         {beings.map((being) => (

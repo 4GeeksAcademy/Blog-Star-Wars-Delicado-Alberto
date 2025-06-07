@@ -1,32 +1,36 @@
 import { useGlobalReducer } from "../hooks/useGlobalReducer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const FavoriteButton = ({ item }) => {
     const { store, dispatch } = useGlobalReducer();
-    const isFavorite = store.favorites.some(fav => fav.uid === item.uid);
+    const [isLocalFavorite, setIsLocalFavorite] = useState(false);
 
     useEffect(() => {
-        // LocalStorage 
-        localStorage.setItem("favorites", JSON.stringify(store.favorites));
-    }, [store.favorites]);
+        const isFav = store.favorites.some(fav => 
+            fav.uid === item.uid && fav.type === item.type
+        );
+        setIsLocalFavorite(isFav);
+    }, [store.favorites, item.uid, item.type]);
 
     const toggleFavorite = () => {
-        let updatedFavorites;
-        if (isFavorite) {
-            updatedFavorites = store.favorites.filter(fav => fav.uid !== item.uid);
-            dispatch({ type: "REMOVE_FAVORITE", payload: item });
-        } else {
-            updatedFavorites = [...store.favorites, item];
-            dispatch({ type: "ADD_FAVORITE", payload: item });
-        }
+        const newFavoriteState = !isLocalFavorite;
+        setIsLocalFavorite(newFavoriteState);
 
-        // Guardar en localStorage
-        localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+        if (newFavoriteState) {
+            dispatch({ type: "ADD_FAVORITE", payload: item });
+        } else {
+            dispatch({ type: "REMOVE_FAVORITE", payload: item });
+        }
     };
 
     return (
-        <button className={`btn-favorite ${isFavorite ? "active" : ""}`} onClick={toggleFavorite}>
-            {isFavorite ? "❤️" : "🤍"}
+        <button 
+            className={`btn-favorite ${isLocalFavorite ? "active" : ""}`} 
+            onClick={toggleFavorite}
+            data-type={item.type}
+            data-uid={item.uid}
+        >
+            {isLocalFavorite ? "❤️" : "🤍"}
         </button>
     );
 };
